@@ -10,7 +10,8 @@
     "script": "tsx scripts/generate-script.ts",
     "narrate": "tsx scripts/generate-narration.ts",
     "images": "tsx scripts/fetch-images.ts",
-    "create": "tsx scripts/pipeline.ts"
+    "create": "tsx scripts/pipeline.ts",
+    "preview": "tsx scripts/preview-png.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.1",
