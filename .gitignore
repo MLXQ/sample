@@ -1,0 +1,10 @@
+node_modules/
+out/
+.env
+.env.local
+*.log
+.DS_Store
+.remotion/
+public/audio/*.mp3
+public/images/downloaded/
+data/generated/

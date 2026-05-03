@@ -1,0 +1,63 @@
+{
+  "title": "The Fall of Constantinople",
+  "subtitle": "A 90-second history",
+  "theme": "history",
+  "scenes": [
+    {
+      "type": "title",
+      "title": "The Fall of Constantinople",
+      "subtitle": "May 29, 1453",
+      "narration": "On the morning of May 29, 1453, the city that had stood for over a thousand years finally fell.",
+      "durationSeconds": 6
+    },
+    {
+      "type": "narration",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Walls_of_Constantinople.JPG/1920px-Walls_of_Constantinople.JPG",
+      "caption": "The Theodosian Walls",
+      "date": "413 AD",
+      "narration": "For more than a thousand years, the triple walls of Constantinople had repelled every army that dared approach them.",
+      "durationSeconds": 7
+    },
+    {
+      "type": "narration",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Gentile_Bellini_003.jpg/1280px-Gentile_Bellini_003.jpg",
+      "caption": "Sultan Mehmed II",
+      "date": "1432 - 1481",
+      "narration": "But in the spring of 1453, a twenty-one-year-old sultan named Mehmed the Second arrived with an army of eighty thousand men and the largest cannon the world had ever seen.",
+      "durationSeconds": 10
+    },
+    {
+      "type": "timeline",
+      "heading": "The Fifty-Three Day Siege",
+      "events": [
+        { "year": "April 6", "text": "Ottoman army surrounds the land walls." },
+        { "year": "April 22", "text": "Ships hauled overland to bypass the chain across the Golden Horn." },
+        { "year": "May 7", "text": "First major assault is repelled." },
+        { "year": "May 29", "text": "The walls are breached; the city falls before noon." }
+      ],
+      "narration": "The siege lasted fifty-three days, with cannons pounding the walls by day and Byzantine defenders rebuilding them by night.",
+      "durationSeconds": 11
+    },
+    {
+      "type": "fact",
+      "fact": "Mehmed's super-cannon weighed 19 tons and could hurl a 600-pound stone over a mile.",
+      "source": "Roger Crowley, 1453: The Holy War for Constantinople",
+      "narration": "The largest of Mehmed's cannons weighed nineteen tons and could fire a six-hundred-pound stone over a mile through the air.",
+      "durationSeconds": 8
+    },
+    {
+      "type": "narration",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Hagia_Sophia_Mars_2013.jpg/1920px-Hagia_Sophia_Mars_2013.jpg",
+      "caption": "Hagia Sophia",
+      "date": "After 1453",
+      "narration": "By sunset, the great cathedral of Hagia Sophia, which had stood as a church for nine centuries, was a mosque. The Roman Empire, in any form, was finally gone.",
+      "durationSeconds": 11
+    },
+    {
+      "type": "outro",
+      "cta": "Subscribe for more forgotten history.",
+      "narration": "Subscribe for more forgotten history.",
+      "durationSeconds": 5
+    }
+  ]
+}
