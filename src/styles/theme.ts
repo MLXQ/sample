@@ -48,6 +48,18 @@ export const themes: Record<string, Palette> = {
     serif: '"Playfair Display", Georgia, serif',
     sans: '"Inter", system-ui, sans-serif',
   },
+  explainer: {
+    bg: "#0b1018",
+    bgGradientFrom: "#101824",
+    bgGradientTo: "#05080d",
+    surface: "rgba(255, 255, 255, 0.08)",
+    text: "#ffffff",
+    textMuted: "rgba(255, 255, 255, 0.78)",
+    accent: "#ffd23d",
+    accentSoft: "rgba(255, 210, 61, 0.28)",
+    serif: '"Inter", system-ui, sans-serif',
+    sans: '"Inter", system-ui, sans-serif',
+  },
 };
 
 export const getPalette = (key?: string): Palette =>

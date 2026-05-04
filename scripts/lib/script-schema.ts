@@ -43,18 +43,30 @@ export const outroSceneSchema = z.object({
   cta: z.string().min(1),
 });
 
+export const brollSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("broll"),
+  /** 2-5 specific search queries for stock-video B-roll clips. */
+  brollQueries: z.array(z.string().min(2)).min(2).max(5),
+  /** Hero subtitle. Wrap keywords in **bold** to highlight in accent color. */
+  subtitle: z.string().optional(),
+  /** Small chip label, e.g. "Step 1", "1903", "The Twist". */
+  chip: z.string().optional(),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
   titleSceneSchema,
   narrationSceneSchema,
   timelineSceneSchema,
   factSceneSchema,
   outroSceneSchema,
+  brollSceneSchema,
 ]);
 
 export const generatedScriptSchema = z.object({
   title: z.string(),
   subtitle: z.string().optional(),
-  theme: z.enum(["history", "science", "modern"]).optional(),
+  theme: z.enum(["history", "science", "modern", "explainer"]).optional(),
   scenes: z.array(sceneSchema).min(3).max(20),
 });
 

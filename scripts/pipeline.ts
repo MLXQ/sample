@@ -8,7 +8,7 @@ import {
   RenderMediaOnProgress,
 } from "@remotion/renderer";
 import { generateScript } from "./generate-script.js";
-import { fetchImagesForScript } from "./fetch-images.js";
+import { fetchMediaForScript } from "./fetch-media.js";
 import { generateNarrationForScript } from "./generate-narration.js";
 import { DATA_DIR, ensureDir, OUT_DIR, ROOT, slugify } from "./lib/paths.js";
 
@@ -33,8 +33,8 @@ async function main() {
   await fs.writeFile(scriptPath, JSON.stringify(script, null, 2), "utf-8");
   console.log(`  ok -> ${path.relative(ROOT, scriptPath)}`);
 
-  step(2, TOTAL, "Downloading historical imagery from Wikimedia Commons");
-  await fetchImagesForScript(script);
+  step(2, TOTAL, "Downloading photos (Wikimedia) + B-roll videos (Pexels)");
+  await fetchMediaForScript(script);
   await fs.writeFile(scriptPath, JSON.stringify(script, null, 2), "utf-8");
 
   step(3, TOTAL, "Generating English narration (OpenAI TTS)");

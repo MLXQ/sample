@@ -1,0 +1,69 @@
+{
+  "title": "Why Airplane Food Tastes Worse",
+  "subtitle": "Explained in 90 seconds",
+  "theme": "explainer",
+  "scenes": [
+    {
+      "type": "title",
+      "title": "Why Airplane Food Tastes Worse",
+      "subtitle": "Explained in 90 seconds",
+      "narration": "You've probably noticed this. The same meal, in the air, just doesn't taste right. Here's why.",
+      "durationSeconds": 6
+    },
+    {
+      "type": "broll",
+      "clips": [
+        { "src": "https://videos.pexels.com/video-files/3015527/3015527-hd_1920_1080_24fps.mp4" },
+        { "src": "https://videos.pexels.com/video-files/2253938/2253938-hd_1920_1080_30fps.mp4" }
+      ],
+      "subtitle": "At cruising altitude, your body is in a **pressurized cabin** at 8,000 feet.",
+      "chip": "The Setup",
+      "narration": "At cruising altitude, your body is sitting in a pressurized cabin equivalent to about eight thousand feet of elevation.",
+      "durationSeconds": 8
+    },
+    {
+      "type": "broll",
+      "clips": [
+        { "src": "https://videos.pexels.com/video-files/4994318/4994318-hd_1920_1080_25fps.mp4" },
+        { "src": "https://videos.pexels.com/video-files/3209211/3209211-hd_1920_1080_25fps.mp4" }
+      ],
+      "subtitle": "The dry air dehydrates your **nose and tongue**.",
+      "narration": "The air inside the cabin is drier than the Sahara Desert, which dries out your nose and tongue almost the moment you board.",
+      "durationSeconds": 9
+    },
+    {
+      "type": "fact",
+      "fact": "Your sense of taste for sweet and salty drops by up to 30% in flight.",
+      "source": "Lufthansa / Fraunhofer Institute, 2010",
+      "narration": "Studies commissioned by Lufthansa found your ability to taste sweet and salty drops by as much as thirty percent at altitude.",
+      "durationSeconds": 8
+    },
+    {
+      "type": "broll",
+      "clips": [
+        { "src": "https://videos.pexels.com/video-files/3196283/3196283-hd_1920_1080_25fps.mp4" },
+        { "src": "https://videos.pexels.com/video-files/2611250/2611250-hd_1920_1080_30fps.mp4" }
+      ],
+      "subtitle": "Cabin noise also dulls **sweetness** and boosts **umami**.",
+      "chip": "The Twist",
+      "narration": "And there's another twist. The constant low rumble of the engines suppresses your perception of sweetness while actually amplifying umami flavors.",
+      "durationSeconds": 10
+    },
+    {
+      "type": "broll",
+      "clips": [
+        { "src": "https://videos.pexels.com/video-files/4253698/4253698-hd_1920_1080_25fps.mp4" },
+        { "src": "https://videos.pexels.com/video-files/3196057/3196057-hd_1920_1080_25fps.mp4" }
+      ],
+      "subtitle": "That's why airlines load their food with **salt, spice, and tomato**.",
+      "narration": "That's why airlines pack their meals with extra salt, extra spice, and a surprising amount of tomato juice — they're compensating for taste buds that simply aren't working right.",
+      "durationSeconds": 11
+    },
+    {
+      "type": "outro",
+      "cta": "Subscribe for more curiosity.",
+      "narration": "Subscribe for more curiosity.",
+      "durationSeconds": 4
+    }
+  ]
+}

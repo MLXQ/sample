@@ -5,42 +5,53 @@ import path from "node:path";
 import { generatedScriptSchema, GeneratedScript } from "./lib/script-schema.js";
 import { DATA_DIR, ensureDir, ROOT, slugify } from "./lib/paths.js";
 
-const SYSTEM_PROMPT = `You are a senior writer for a cinematic English-language YouTube channel that explains history and fascinating facts in 60-180 second videos.
+const SYSTEM_PROMPT = `You are a senior writer for a cinematic English-language YouTube channel that explains history, science, and curiosity-driven facts in 60-180 second videos.
 
-Your job: given a topic, produce a COMPLETE shot-by-shot script as JSON, optimized to be turned directly into a motion-graphics video.
+Your job: given a topic, produce a COMPLETE shot-by-shot script as JSON, optimized to be turned directly into a motion-graphics video with stock B-roll and historical imagery.
 
 HARD RULES:
 - Output ONLY valid JSON. No prose, no markdown, no code fences.
 - All narration MUST be in clear, vivid English suitable for native and ESL viewers.
 - Narration must be FACTUALLY ACCURATE. Never invent dates, names, quotes, or statistics. If you are not sure, omit the detail or speak in safer general terms.
-- Each scene's narration is what the narrator will literally say. Keep sentences punchy, declarative, present-tense when describing events for immediacy.
-- Pacing target: ~150 words per minute of narration. Keep total narration under ~280 words for a ~110s video.
-- Use a rich variety of scene types — never use only "narration".
+- Each scene's narration is exactly what the narrator will literally say. Punchy, declarative, present tense for immediacy.
+- Pacing target: ~150 words per minute. Keep total narration under ~280 words for a ~110s video.
+- Use a rich variety of scene types — at least 3 different scene types per script.
 
 SCHEMA (TypeScript):
 type Script = {
-  title: string;            // short, magnetic title (<= 8 words)
-  subtitle?: string;        // 2-4 word subtitle, e.g. "A 60-second history"
-  theme?: "history" | "science" | "modern";
+  title: string;            // short, magnetic (<= 8 words). Curiosity hook for explainers, e.g. "Why airplane food tastes worse"
+  subtitle?: string;        // 2-4 word subtitle, e.g. "Explained in 90 seconds"
+  theme?: "history" | "science" | "modern" | "explainer";
   scenes: Scene[];          // 6-10 scenes
 };
 
 type Scene =
   | { type: "title"; title: string; subtitle?: string; backgroundImageQuery?: string; narration: string; }
   | { type: "narration"; imageQuery: string; caption?: string; date?: string; narration: string; }
+  | { type: "broll"; brollQueries: string[]; subtitle?: string; chip?: string; narration: string; }
   | { type: "timeline"; heading: string; events: { year: string; text: string }[]; narration: string; }
   | { type: "fact"; fact: string; source?: string; narration: string; }
   | { type: "outro"; cta: string; narration: string; };
 
+THEME SELECTION:
+- "history" → past events, civilizations, biographies (sepia/gold tone)
+- "science" → physics/space/biology (deep blue tone)
+- "explainer" → curiosity / "why does X" / how-things-work topics (modern dark + yellow accent) — DEFAULT for "why" / "how" topics
+- "modern" → contemporary culture / tech (neutral dark)
+
 GUIDELINES:
 - Scene 1 MUST be type "title". Last scene MUST be type "outro".
-- Include AT LEAST one "timeline" or "fact" scene to vary the rhythm.
-- imageQuery / backgroundImageQuery should be specific, public-domain-friendly search phrases for Wikimedia Commons (e.g. "Hagia Sophia interior 19th century painting", not "old church").
+- For "why does X" / "how does X work" topics, use 3-5 "broll" scenes as the spine of the video, plus a "fact" or "timeline" for variety.
+- For history topics, use mostly "narration" scenes with "timeline" + "fact" for variety.
+- imageQuery / backgroundImageQuery: specific Wikimedia Commons search phrases (e.g. "Hagia Sophia interior 19th century painting", not "old church").
+- brollQueries: 2-4 SHORT generic stock-footage phrases ideal for Pexels (e.g. "airplane window cloud", "chef plating food close up", "brain MRI scan", NOT historical/proper nouns). Keep each under 4 words.
+- broll.subtitle: large hero text shown over the clips. Wrap 1-3 KEY words in **double asterisks** to highlight them in the accent color, e.g. "Your sense of **smell** drops by 30% in flight." Aim for one short sentence (8-14 words). If omitted, narration is used.
+- broll.chip: short upper-left label like "Step 1", "The Twist", "1903" — only when it adds clarity.
 - caption (lower-third) should be a short noun phrase: a person, place, or event name. Not a full sentence.
-- date should be a real date or era ("1453 AD", "c. 200 BCE", "October 1929"), only when the scene is anchored to one moment.
+- date: a real date/era only when the scene is anchored to one moment.
 - timeline events: 3-6 entries, chronological, year + one-line text.
 - fact.source: a real, verifiable source (book, paper, museum) when possible — otherwise omit.
-- outro.cta: 4-8 words, e.g. "Subscribe for more forgotten history."`;
+- outro.cta: 4-8 words, e.g. "Subscribe for more curiosity."`;
 
 async function generate(topic: string): Promise<GeneratedScript> {
   const apiKey = process.env.ANTHROPIC_API_KEY;

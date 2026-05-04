@@ -6,6 +6,7 @@ import { NarrationSceneView } from "./NarrationScene";
 import { TimelineSceneView } from "./TimelineScene";
 import { FactCardSceneView } from "./FactCardScene";
 import { OutroSceneView } from "./OutroScene";
+import { BrollSceneView } from "./BrollScene";
 
 type Props = { scene: Scene; palette: Palette; index: number };
 
@@ -24,6 +25,8 @@ export const SceneRenderer: React.FC<Props> = ({ scene, palette, index }) => {
         return <FactCardSceneView scene={scene} palette={palette} />;
       case "outro":
         return <OutroSceneView scene={scene} palette={palette} />;
+      case "broll":
+        return <BrollSceneView scene={scene} palette={palette} />;
     }
   })();
 

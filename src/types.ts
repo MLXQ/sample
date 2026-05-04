@@ -47,17 +47,39 @@ export type OutroScene = SceneBase & {
   cta: string;
 };
 
+export type BrollClip = {
+  /** Filename in public/videos, or absolute http(s) URL. */
+  src: string;
+  /** Optional in/out trim within the clip, in seconds. */
+  trimStart?: number;
+  trimEnd?: number;
+};
+
+export type BrollScene = SceneBase & {
+  type: "broll";
+  /** 2+ stock clips that cycle within this scene. */
+  clips: BrollClip[];
+  /**
+   * Hero subtitle text. Defaults to `narration` if omitted. Keywords
+   * wrapped in **double asterisks** are highlighted in the accent color.
+   */
+  subtitle?: string;
+  /** Optional small upper-left chip label, e.g. "Step 1", "1903". */
+  chip?: string;
+};
+
 export type Scene =
   | TitleScene
   | NarrationScene
   | TimelineScene
   | FactScene
-  | OutroScene;
+  | OutroScene
+  | BrollScene;
 
 export type Script = {
   title: string;
   subtitle?: string;
   /** Theme palette key. */
-  theme?: "history" | "science" | "modern";
+  theme?: "history" | "science" | "modern" | "explainer";
   scenes: Scene[];
 };
