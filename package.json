@@ -13,7 +13,8 @@
     "media": "tsx scripts/fetch-media.ts",
     "create": "tsx scripts/pipeline.ts",
     "preview": "tsx scripts/preview-png.ts",
-    "preview:explainer": "tsx scripts/preview-explainer.ts"
+    "preview:explainer": "tsx scripts/preview-explainer.ts",
+    "preview:real": "tsx scripts/preview-real.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.1",

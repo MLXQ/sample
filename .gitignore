@@ -8,4 +8,5 @@ out/
 public/audio/*.mp3
 public/images/downloaded/
 public/videos/*.mp4
+public/videos/source/
 data/generated/
