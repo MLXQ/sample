@@ -6,6 +6,8 @@ out/
 .DS_Store
 .remotion/
 public/audio/*.mp3
+public/audio/bgm/*.mp3
+public/audio/bgm/*.mid
 public/images/downloaded/
 public/videos/*.mp4
 public/videos/source/

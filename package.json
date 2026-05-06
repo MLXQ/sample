@@ -14,7 +14,11 @@
     "create": "tsx scripts/pipeline.ts",
     "preview": "tsx scripts/preview-png.ts",
     "preview:explainer": "tsx scripts/preview-explainer.ts",
-    "preview:real": "tsx scripts/preview-real.ts"
+    "preview:real": "tsx scripts/preview-real.ts",
+    "preview:final": "tsx scripts/preview-final.ts",
+    "bgm": "tsx scripts/generate-bgm.ts",
+    "guide": "tsx scripts/build-recording-guide.ts",
+    "mix": "tsx scripts/mix-narration.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.1",
