@@ -97,7 +97,7 @@ async function main() {
   // duration. (Otherwise the BGM bleeds in from the old longer clip
   // mix.) Voice is preserved by sourcing it from the concatenated mp4.
   const final = path.join(ROOT, "demo", "final-shorts.mp4");
-  const bgm = path.join(PUBLIC_DIR, "audio", "bgm", "dramatic.mp3");
+  const bgm = path.join(PUBLIC_DIR, "audio", "bgm", "tech.mp3");
 
   await ffmpeg([
     "-y",

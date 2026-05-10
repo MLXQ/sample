@@ -22,7 +22,7 @@ import { ROOT, ensureDir, PUBLIC_DIR } from "./lib/paths.js";
 
 const BGM_DIR = path.join(PUBLIC_DIR, "audio", "bgm");
 
-type Mood = "curious" | "dramatic" | "calm";
+type Mood = "curious" | "dramatic" | "calm" | "tech";
 
 type ChordVoicing = number[]; // MIDI numbers, low-to-high
 
@@ -223,12 +223,168 @@ async function midiToMp3(midiFile: string, mp3File: string): Promise<void> {
   await fs.unlink(wav).catch(() => undefined);
 }
 
+/**
+ * Bright tech/explainer track — fundamentally different from the
+ * other moods (which are minor-key piano + cello). Major key (C),
+ * 108 BPM, saw-lead 16th-note arpeggios, warm pad, synth bass, and
+ * a 4-on-the-floor drum kit. Designed for AI / startup / tech
+ * explainer videos where the existing dramatic track felt too somber.
+ */
+function makeTechTrack(): MidiWriter.Track[] {
+  const bpm = 108;
+
+  // I - V - vi - IV in C major (the universal pop / cinematic-tech progression)
+  const CHORDS: Record<string, number[]> = {
+    I: [60, 64, 67], // C major
+    V: [55, 59, 62], // G major
+    vi: [57, 60, 64], // A minor
+    IV: [53, 57, 60], // F major
+  };
+  type Step = { chord: keyof typeof CHORDS; bars: number };
+  const progression: Step[] = [
+    { chord: "I", bars: 2 },
+    { chord: "V", bars: 2 },
+    { chord: "vi", bars: 2 },
+    { chord: "IV", bars: 2 },
+  ];
+  const loops = 4; // ~75s at 108 BPM, perfect loop length for a 2-min video
+
+  // Track 1: saw lead 16th-note arpeggio (the "tech" signature sound)
+  const lead = new MidiWriter.Track();
+  lead.setTempo(bpm);
+  lead.addEvent(new MidiWriter.ProgramChangeEvent({ instrument: 82 })); // Saw Lead
+  // up-down arpeggio of the chord's 3 voices, plus an octave-up climb
+  const arpPattern = [0, 1, 2, 1, 0, 2, 1, 2]; // 8 sixteenth notes per bar pair
+  for (let loop = 0; loop < loops; loop++) {
+    for (const step of progression) {
+      const v = CHORDS[step.chord];
+      for (let bar = 0; bar < step.bars; bar++) {
+        for (const idx of arpPattern) {
+          lead.addEvent(
+            new MidiWriter.NoteEvent({
+              pitch: [midiNote(v[idx] + 12)],
+              duration: NOTE_DURATIONS.eighth,
+              velocity: 34 + Math.floor(Math.random() * 10),
+            }),
+          );
+        }
+      }
+    }
+  }
+
+  // Track 2: warm pad sustained
+  const pad = new MidiWriter.Track();
+  pad.setTempo(bpm);
+  pad.addEvent(new MidiWriter.ProgramChangeEvent({ instrument: 90 })); // Warm Pad
+  for (let loop = 0; loop < loops; loop++) {
+    for (const step of progression) {
+      const v = CHORDS[step.chord];
+      for (let bar = 0; bar < step.bars; bar++) {
+        pad.addEvent(
+          new MidiWriter.NoteEvent({
+            pitch: v.map(midiNote),
+            duration: NOTE_DURATIONS.whole,
+            velocity: 30,
+          }),
+        );
+      }
+    }
+  }
+
+  // Track 3: synth bass — root + octave alternation, quarter notes
+  const bass = new MidiWriter.Track();
+  bass.setTempo(bpm);
+  bass.addEvent(new MidiWriter.ProgramChangeEvent({ instrument: 39 })); // Synth Bass 1
+  for (let loop = 0; loop < loops; loop++) {
+    for (const step of progression) {
+      const root = CHORDS[step.chord][0] - 24;
+      for (let bar = 0; bar < step.bars; bar++) {
+        // 1: root, 1.5: octave, 2: root, 2.5: octave, ... pumping eighth-bass
+        for (let beat = 0; beat < 8; beat++) {
+          const pitch = beat % 2 === 0 ? root : root + 12;
+          bass.addEvent(
+            new MidiWriter.NoteEvent({
+              pitch: [midiNote(pitch)],
+              duration: NOTE_DURATIONS.eighth,
+              velocity: beat % 2 === 0 ? 55 : 38,
+            }),
+          );
+        }
+      }
+    }
+  }
+
+  // Track 4: drums on channel 10 (GM drum kit auto-selected by timidity)
+  // Pattern: kick on 1/3, snare on 2/4, hi-hat on every 8th
+  const drums = new MidiWriter.Track();
+  drums.setTempo(bpm);
+  for (let loop = 0; loop < loops; loop++) {
+    for (const step of progression) {
+      for (let bar = 0; bar < step.bars; bar++) {
+        // 8 eighth notes per bar:
+        //   1   1.5  2    2.5  3    3.5  4    4.5
+        //   K+H H    S+H  H    K+H  H    S+H  H
+        const beats: number[][] = [
+          [36, 42],
+          [42],
+          [38, 42],
+          [42],
+          [36, 42],
+          [42],
+          [38, 42],
+          [42],
+        ];
+        for (const pitches of beats) {
+          drums.addEvent(
+            new MidiWriter.NoteEvent({
+              pitch: pitches.map(midiNote),
+              duration: NOTE_DURATIONS.eighth,
+              velocity: 65,
+              channel: 10,
+            }),
+          );
+        }
+      }
+    }
+  }
+
+  // Track 5: bright pluck on top (electric piano) — sparse, every 2 bars on beat 1
+  const pluck = new MidiWriter.Track();
+  pluck.setTempo(bpm);
+  pluck.addEvent(new MidiWriter.ProgramChangeEvent({ instrument: 5 })); // Electric Piano 1
+  for (let loop = 0; loop < loops; loop++) {
+    for (const step of progression) {
+      const v = CHORDS[step.chord];
+      for (let bar = 0; bar < step.bars; bar++) {
+        // Beat 1: top note of chord, an octave up
+        pluck.addEvent(
+          new MidiWriter.NoteEvent({
+            pitch: [midiNote(v[2] + 12)],
+            duration: NOTE_DURATIONS.half,
+            velocity: 32,
+          }),
+        );
+        // Rest of bar = silence (handled by next loop iteration's tempo)
+        pluck.addEvent(
+          new MidiWriter.NoteEvent({
+            pitch: [midiNote(v[2] + 12)],
+            duration: NOTE_DURATIONS.half,
+            velocity: 0, // effectively silent
+          }),
+        );
+      }
+    }
+  }
+
+  return [lead, pad, bass, drums, pluck];
+}
+
 async function main() {
   await ensureDir(BGM_DIR);
-  const moods: Mood[] = ["curious", "dramatic", "calm"];
+  const moods: Mood[] = ["curious", "dramatic", "calm", "tech"];
   for (const mood of moods) {
     console.log(`-> ${mood}`);
-    const tracks = makeMoodTrack(mood);
+    const tracks = mood === "tech" ? makeTechTrack() : makeMoodTrack(mood);
     const writer = new MidiWriter.Writer(tracks);
     const midiPath = path.join(BGM_DIR, `${mood}.mid`);
     const mp3Path = path.join(BGM_DIR, `${mood}.mp3`);
