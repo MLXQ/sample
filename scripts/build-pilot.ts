@@ -480,6 +480,354 @@ function drawLogoGridScene(
   ctx.textAlign = "start";
 }
 
+function drawWorldMapScene(
+  d: DrawCtx,
+  scene: Extract<Scene, { type: "worldMap" }>,
+) {
+  const { ctx, p } = d;
+  gradientBg(ctx, p);
+
+  // Heading top-center
+  ctx.fillStyle = p.accent;
+  ctx.font = '900 32px "Inter", sans-serif';
+  ctx.textAlign = "center";
+  ctx.fillText(
+    scene.heading.toUpperCase().split("").join(" "),
+    W / 2,
+    100,
+  );
+
+  // Stylized "world" — dot grid + soft continent silhouettes via
+  // overlapping low-alpha rounded rects. Suggests geography without
+  // requiring an actual map.
+  const mapTop = 180;
+  const mapH = H - 280;
+  const mapW = W - 240;
+  const mapL = 120;
+
+  // Background plate
+  ctx.fillStyle = "rgba(255,255,255,0.02)";
+  roundRect(ctx, mapL, mapTop, mapW, mapH, 14);
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Continent silhouettes (very rough). Each is a rounded blob.
+  const continents = [
+    { x: 0.13, y: 0.34, w: 0.18, h: 0.30 }, // North America
+    { x: 0.27, y: 0.62, w: 0.10, h: 0.24 }, // South America
+    { x: 0.46, y: 0.30, w: 0.14, h: 0.16 }, // Europe
+    { x: 0.50, y: 0.50, w: 0.18, h: 0.30 }, // Africa
+    { x: 0.62, y: 0.34, w: 0.30, h: 0.28 }, // Asia
+    { x: 0.78, y: 0.70, w: 0.10, h: 0.10 }, // Australia
+  ];
+  ctx.fillStyle = "rgba(76,194,255,0.06)";
+  for (const c of continents) {
+    const cx = mapL + c.x * mapW;
+    const cy = mapTop + c.y * mapH;
+    const cw = c.w * mapW;
+    const ch = c.h * mapH;
+    ctx.beginPath();
+    ctx.ellipse(cx + cw / 2, cy + ch / 2, cw / 2, ch / 2, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Lat/long grid
+  ctx.strokeStyle = "rgba(255,255,255,0.04)";
+  ctx.lineWidth = 1;
+  for (let i = 1; i < 8; i++) {
+    const x = mapL + (mapW * i) / 8;
+    ctx.beginPath();
+    ctx.moveTo(x, mapTop);
+    ctx.lineTo(x, mapTop + mapH);
+    ctx.stroke();
+  }
+  for (let i = 1; i < 5; i++) {
+    const y = mapTop + (mapH * i) / 5;
+    ctx.beginPath();
+    ctx.moveTo(mapL, y);
+    ctx.lineTo(mapL + mapW, y);
+    ctx.stroke();
+  }
+
+  // Compute pin pixel positions
+  const pinPx = scene.pins.map((pin) => ({
+    pin,
+    px: mapL + pin.x * mapW,
+    py: mapTop + pin.y * mapH,
+  }));
+
+  // Connection lines (animated draw-in)
+  if (scene.connect && pinPx.length >= 2) {
+    const lineStart = 0.6;
+    for (let i = 0; i < pinPx.length - 1; i++) {
+      const startT = lineStart + i * 0.18;
+      const localT = Math.max(0, d.t - startT);
+      const drawProg = Math.min(1, easeOutCubic(localT / 0.5));
+      if (drawProg <= 0) continue;
+      const a = pinPx[i];
+      const b = pinPx[i + 1];
+      const tx = a.px + (b.px - a.px) * drawProg;
+      const ty = a.py + (b.py - a.py) * drawProg;
+      ctx.strokeStyle = p.accent;
+      ctx.lineWidth = 2;
+      ctx.setLineDash([8, 6]);
+      ctx.beginPath();
+      ctx.moveTo(a.px, a.py);
+      ctx.lineTo(tx, ty);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  // Pins (stagger reveal)
+  pinPx.forEach((pp, i) => {
+    const startT = 0.3 + i * 0.18;
+    const localT = Math.max(0, d.t - startT);
+    const op = Math.min(1, localT / 0.4);
+    const scale = easeOutBack(Math.min(1, localT / 0.6));
+    if (op <= 0) return;
+
+    ctx.globalAlpha = op;
+
+    // Pulsing halo
+    const pulse = 0.5 + 0.5 * Math.sin((d.t - startT) * 4);
+    const haloR = (pp.pin.highlight ? 60 : 40) * (0.85 + 0.15 * scale);
+    const halo = ctx.createRadialGradient(pp.px, pp.py, 4, pp.px, pp.py, haloR);
+    halo.addColorStop(0, `rgba(76,194,255,${0.45 + 0.25 * pulse})`);
+    halo.addColorStop(1, "transparent");
+    ctx.fillStyle = halo;
+    ctx.beginPath();
+    ctx.arc(pp.px, pp.py, haloR, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Dot
+    ctx.fillStyle = p.accent;
+    const dotR = (pp.pin.highlight ? 16 : 11) * scale;
+    ctx.beginPath();
+    ctx.arc(pp.px, pp.py, dotR, 0, Math.PI * 2);
+    ctx.fill();
+    if (pp.pin.highlight) {
+      ctx.strokeStyle = p.text;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(pp.px, pp.py, dotR + 8, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Country label
+    ctx.fillStyle = p.text;
+    ctx.font = '800 32px "Inter", sans-serif';
+    ctx.textAlign = "center";
+    // Place label above or below based on position
+    const labelY = pp.pin.y < 0.5 ? pp.py + dotR + 44 : pp.py - dotR - 18;
+    ctx.shadowColor = "rgba(0,0,0,0.9)";
+    ctx.shadowBlur = 12;
+    ctx.fillText(pp.pin.country, pp.px, labelY);
+    if (pp.pin.label) {
+      ctx.fillStyle = p.textMuted;
+      ctx.font = '500 22px "Inter", sans-serif';
+      ctx.fillText(pp.pin.label, pp.px, labelY + 28);
+    }
+    ctx.shadowColor = "transparent";
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
+  });
+
+  ctx.textAlign = "start";
+}
+
+function drawMarketShareScene(
+  d: DrawCtx,
+  scene: Extract<Scene, { type: "marketShare" }>,
+) {
+  const { ctx, p } = d;
+  gradientBg(ctx, p);
+
+  // Heading
+  ctx.fillStyle = p.accent;
+  ctx.font = '900 32px "Inter", sans-serif';
+  ctx.textAlign = "center";
+  ctx.fillText(
+    scene.heading.toUpperCase().split("").join(" "),
+    W / 2,
+    140,
+  );
+  ctx.textAlign = "start";
+
+  const n = scene.metrics.length;
+  const slotW = (W - 200) / n;
+  const startX = 100;
+  const cy = H / 2 + 40;
+  const radius = 160;
+
+  scene.metrics.forEach((m, i) => {
+    const startT = 0.4 + i * 0.25;
+    const localT = Math.max(0, d.t - startT);
+    const drawProg = Math.min(1, easeOutCubic(localT / 0.8));
+    if (drawProg <= 0) return;
+
+    const cx = startX + slotW * (i + 0.5);
+
+    // Background ring
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    ctx.lineWidth = 30;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Animated arc — fills up to sharePercent
+    const targetAngle = (m.sharePercent / 100) * Math.PI * 2;
+    const drawAngle = targetAngle * drawProg;
+    const startAngle = -Math.PI / 2; // start at top
+    ctx.strokeStyle = p.accent;
+    ctx.lineWidth = 30;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, startAngle, startAngle + drawAngle);
+    ctx.stroke();
+    ctx.lineCap = "butt";
+
+    // Center percentage (counts up)
+    const animPct = m.sharePercent * drawProg;
+    ctx.fillStyle = p.text;
+    ctx.font = '900 88px "Inter", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText(`${Math.round(animPct)}%`, cx, cy + 28);
+
+    // Leader name above
+    if (drawProg > 0.5) {
+      const op = Math.min(1, (drawProg - 0.5) / 0.4);
+      ctx.globalAlpha = op;
+      ctx.fillStyle = p.accent;
+      ctx.font = '800 28px "Inter", sans-serif';
+      ctx.fillText(m.leader, cx, cy - radius - 30);
+      ctx.globalAlpha = 1;
+    }
+
+    // Label below
+    ctx.fillStyle = p.textMuted;
+    ctx.font = '700 26px "Inter", sans-serif';
+    ctx.fillText(m.label, cx, cy + radius + 70);
+  });
+
+  ctx.textAlign = "start";
+}
+
+function drawFlowDiagramScene(
+  d: DrawCtx,
+  scene: Extract<Scene, { type: "flowDiagram" }>,
+) {
+  const { ctx, p } = d;
+  gradientBg(ctx, p);
+
+  // Heading
+  ctx.fillStyle = p.accent;
+  ctx.font = '900 32px "Inter", sans-serif';
+  ctx.textAlign = "center";
+  ctx.fillText(
+    scene.heading.toUpperCase().split("").join(" "),
+    W / 2,
+    140,
+  );
+  ctx.textAlign = "start";
+
+  const n = scene.steps.length;
+  const padX = 80;
+  const padY = 200;
+  const usableW = W - padX * 2;
+  const cy = H / 2 + 40;
+
+  // Each step gets a slot; arrows occupy ~25% of slot
+  const slotW = usableW / n;
+  const boxW = slotW * 0.78;
+  const boxH = 180;
+
+  scene.steps.forEach((step, i) => {
+    const startT = 0.3 + i * 0.25;
+    const localT = Math.max(0, d.t - startT);
+    const op = Math.min(1, localT / 0.4);
+    const scale = easeOutBack(Math.min(1, localT / 0.5));
+    if (op <= 0) return;
+
+    const cx = padX + slotW * (i + 0.5);
+    const x = cx - boxW / 2;
+    const y = cy - boxH / 2;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(0.85 + 0.15 * scale, 0.85 + 0.15 * scale);
+    ctx.translate(-cx, -cy);
+    ctx.globalAlpha = op;
+
+    // Box
+    ctx.fillStyle = "rgba(255,255,255,0.06)";
+    roundRect(ctx, x, y, boxW, boxH, 14);
+    ctx.fill();
+    ctx.strokeStyle = p.accent;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Step number
+    ctx.fillStyle = p.accent;
+    ctx.font = '700 22px "Inter", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText(`STEP ${i + 1}`, cx, y + 35);
+
+    // Label (auto-fit)
+    ctx.fillStyle = p.text;
+    let fontSize = 38;
+    ctx.font = `900 ${fontSize}px "Inter", sans-serif`;
+    while (ctx.measureText(step.label).width > boxW - 24 && fontSize > 22) {
+      fontSize -= 2;
+      ctx.font = `900 ${fontSize}px "Inter", sans-serif`;
+    }
+    ctx.fillText(step.label, cx, y + 90);
+
+    // Note
+    if (step.note) {
+      ctx.fillStyle = p.textMuted;
+      ctx.font = '500 20px "Inter", sans-serif';
+      ctx.fillText(step.note, cx, y + 130);
+    }
+
+    ctx.restore();
+    ctx.globalAlpha = 1;
+
+    // Arrow to next box
+    if (i < n - 1) {
+      const arrowStart = cx + boxW / 2 + 8;
+      const arrowEnd = cx + slotW - boxW / 2 - 8;
+      const arrowStartT = startT + 0.35;
+      const arrowLocalT = Math.max(0, d.t - arrowStartT);
+      const arrowProg = Math.min(1, easeOutCubic(arrowLocalT / 0.4));
+      if (arrowProg > 0) {
+        const tx = arrowStart + (arrowEnd - arrowStart) * arrowProg;
+        ctx.strokeStyle = p.accent;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(arrowStart, cy);
+        ctx.lineTo(tx, cy);
+        ctx.stroke();
+        // Arrowhead at the front
+        if (arrowProg >= 0.95) {
+          const headSize = 18;
+          ctx.fillStyle = p.accent;
+          ctx.beginPath();
+          ctx.moveTo(arrowEnd, cy);
+          ctx.lineTo(arrowEnd - headSize, cy - headSize / 2);
+          ctx.lineTo(arrowEnd - headSize, cy + headSize / 2);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+    }
+  });
+
+  ctx.textAlign = "start";
+}
+
 function drawFactScene(d: DrawCtx, scene: Extract<Scene, { type: "fact" }>) {
   const { ctx, p } = d;
   gradientBg(ctx, p);
@@ -613,6 +961,15 @@ async function renderSceneFrames(
         break;
       case "logoGrid":
         drawLogoGridScene(dctx, scene);
+        break;
+      case "worldMap":
+        drawWorldMapScene(dctx, scene);
+        break;
+      case "marketShare":
+        drawMarketShareScene(dctx, scene);
+        break;
+      case "flowDiagram":
+        drawFlowDiagramScene(dctx, scene);
         break;
       case "fact":
         drawFactScene(dctx, scene);
@@ -778,13 +1135,27 @@ async function main() {
     const sceneFrames = path.join(FRAMES_DIR, String(i).padStart(2, "0"));
     const sceneClip = path.join(CLIPS_DIR, `${String(i).padStart(2, "0")}.mp4`);
 
+    // Incremental: skip if the per-scene mp4 already exists.
+    let cached = false;
+    try {
+      await fs.access(sceneClip);
+      cached = true;
+    } catch {
+      // not cached
+    }
+
     const start = Date.now();
-    const { frameCount } = await renderSceneFrames(scene, palette, sceneFrames);
-    await encodeSceneClip(sceneFrames, sceneClip);
+    let frameCount = 0;
+    if (!cached) {
+      const r = await renderSceneFrames(scene, palette, sceneFrames);
+      frameCount = r.frameCount;
+      await encodeSceneClip(sceneFrames, sceneClip);
+    }
     const ms = Date.now() - start;
     clips.push(sceneClip);
+    const tag = cached ? "cached".padEnd(8) : `${frameCount} frames`.padEnd(11);
     console.log(
-      `   [${i + 1}/${script.scenes.length}] ${scene.type.padEnd(15)} ${frameCount} frames (${ms}ms)`,
+      `   [${i + 1}/${script.scenes.length}] ${scene.type.padEnd(15)} ${tag} (${ms}ms)`,
     );
   }
 

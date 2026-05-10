@@ -121,6 +121,64 @@ export type LogoGridScene = SceneBase & {
   logos: string[];
 };
 
+/**
+ * Geographic concentration view. 3-6 country pins on a stylized world
+ * grid; pins appear with stagger and (optional) connection lines pulse
+ * between them. Great for "AI is concentrated in 4 countries" stories.
+ */
+export type WorldPin = {
+  country: string;
+  /** 0..1 horizontal position on the canvas. */
+  x: number;
+  /** 0..1 vertical position on the canvas. */
+  y: number;
+  /** Featured companies / role at this pin. */
+  label?: string;
+  /** Highlight ring + larger dot. */
+  highlight?: boolean;
+};
+export type WorldMapScene = SceneBase & {
+  type: "worldMap";
+  heading: string;
+  pins: WorldPin[];
+  /** Connect pins in order with animated lines. */
+  connect?: boolean;
+};
+
+/**
+ * Side-by-side donut charts showing market concentration / monopoly.
+ * Each donut has a leader's percentage and a small caption.
+ */
+export type MarketShareMetric = {
+  /** Industry / segment name (e.g. "EUV Lithography"). */
+  label: string;
+  /** Dominant company name (e.g. "ASML"). */
+  leader: string;
+  /** 0..100 share percentage held by leader. */
+  sharePercent: number;
+};
+export type MarketShareScene = SceneBase & {
+  type: "marketShare";
+  heading: string;
+  /** 2-4 metrics shown side by side. */
+  metrics: MarketShareMetric[];
+};
+
+/**
+ * Horizontal supply-chain / process flow. Boxes appear left-to-right
+ * with animated arrows drawing between them.
+ */
+export type FlowStep = {
+  label: string;
+  note?: string;
+};
+export type FlowDiagramScene = SceneBase & {
+  type: "flowDiagram";
+  heading: string;
+  /** 3-7 sequential steps. */
+  steps: FlowStep[];
+};
+
 export type Scene =
   | TitleScene
   | NarrationScene
@@ -131,7 +189,10 @@ export type Scene =
   | CountUpScene
   | StackScene
   | ChartScene
-  | LogoGridScene;
+  | LogoGridScene
+  | WorldMapScene
+  | MarketShareScene
+  | FlowDiagramScene;
 
 export type Script = {
   title: string;

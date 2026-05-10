@@ -89,6 +89,51 @@ export const logoGridSceneSchema = z.object({
   logos: z.array(z.string().min(1)).min(2).max(9),
 });
 
+export const worldMapSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("worldMap"),
+  heading: z.string(),
+  pins: z
+    .array(
+      z.object({
+        country: z.string(),
+        x: z.number().min(0).max(1),
+        y: z.number().min(0).max(1),
+        label: z.string().optional(),
+        highlight: z.boolean().optional(),
+      }),
+    )
+    .min(2)
+    .max(8),
+  connect: z.boolean().optional(),
+});
+
+export const marketShareSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("marketShare"),
+  heading: z.string(),
+  metrics: z
+    .array(
+      z.object({
+        label: z.string(),
+        leader: z.string(),
+        sharePercent: z.number().min(0).max(100),
+      }),
+    )
+    .min(1)
+    .max(4),
+});
+
+export const flowDiagramSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("flowDiagram"),
+  heading: z.string(),
+  steps: z
+    .array(z.object({ label: z.string(), note: z.string().optional() }))
+    .min(2)
+    .max(7),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
   titleSceneSchema,
   narrationSceneSchema,
@@ -100,6 +145,9 @@ export const sceneSchema = z.discriminatedUnion("type", [
   stackSceneSchema,
   chartSceneSchema,
   logoGridSceneSchema,
+  worldMapSceneSchema,
+  marketShareSceneSchema,
+  flowDiagramSceneSchema,
 ]);
 
 export const generatedScriptSchema = z.object({

@@ -11,37 +11,61 @@
         "eyebrow": "Explained in 90 seconds"
       },
       "narration": "The trillions of dollars flowing through artificial intelligence pass through twelve distinct layers — most of which you have never heard of.",
-      "durationSeconds": 7
+      "durationSeconds": 6
     },
     {
       "type": "countUpStat",
-      "value": 200,
+      "value": 500,
       "prefix": "$",
-      "suffix": "B",
-      "label": "Spent on AI infrastructure",
-      "caption": "in 2024 alone",
-      "narration": "Last year, the world spent over two hundred billion dollars building out the infrastructure behind AI.",
+      "suffix": "B+",
+      "label": "Already committed",
+      "caption": "to AI infrastructure",
+      "narration": "Hyperscalers have already committed over five hundred billion dollars to AI infrastructure — and the build-out is only accelerating.",
       "durationSeconds": 7
+    },
+    {
+      "type": "worldMap",
+      "heading": "Where the AI Boom Lives",
+      "connect": true,
+      "pins": [
+        { "country": "USA", "x": 0.18, "y": 0.40, "label": "OpenAI, NVIDIA, Microsoft", "highlight": true },
+        { "country": "Netherlands", "x": 0.49, "y": 0.30, "label": "ASML — EUV monopoly" },
+        { "country": "Korea", "x": 0.84, "y": 0.30, "label": "SK Hynix, Samsung", "highlight": true },
+        { "country": "Taiwan", "x": 0.74, "y": 0.55, "label": "TSMC — 60% of foundry" }
+      ],
+      "narration": "Almost the entire stack lives in just four countries: the United States, the Netherlands, Korea, and Taiwan.",
+      "durationSeconds": 10
     },
     {
       "type": "stackDiagram",
       "heading": "The Stack",
       "layers": [
-        { "label": "Materials", "note": "silicon, rare earths" },
-        { "label": "Lithography", "note": "ASML, EUV" },
-        { "label": "Foundries", "note": "TSMC, Samsung" },
-        { "label": "Memory", "note": "SK Hynix HBM" },
-        { "label": "Designers", "note": "NVIDIA, AMD, custom silicon" },
-        { "label": "Networking", "note": "Arista, Broadcom" },
-        { "label": "Power", "note": "nuclear, gas, grid" },
-        { "label": "Cooling", "note": "Vertiv, immersion" },
-        { "label": "Real Estate", "note": "Equinix, data centers" },
-        { "label": "Cloud", "note": "AWS, Azure, GCP" },
+        { "label": "Materials", "note": "Shin-Etsu, SUMCO, Albemarle" },
+        { "label": "Lithography", "note": "ASML" },
+        { "label": "Foundries", "note": "TSMC, Samsung, Intel" },
+        { "label": "Memory", "note": "SK Hynix, Samsung, Micron" },
+        { "label": "Designers", "note": "NVIDIA, AMD, Broadcom" },
+        { "label": "Networking", "note": "Arista, Cisco, Marvell" },
+        { "label": "Power", "note": "Constellation, Vistra" },
+        { "label": "Cooling", "note": "Vertiv, Schneider" },
+        { "label": "Real Estate", "note": "Equinix, Digital Realty" },
+        { "label": "Cloud", "note": "Microsoft, Amazon, Google" },
         { "label": "Foundation Models", "note": "OpenAI, Anthropic, Google" },
         { "label": "Applications", "note": "ChatGPT, Cursor, Perplexity" }
       ],
-      "narration": "From sand to software, every layer adds value. Some are open markets. Some are choke points dominated by a single company.",
+      "narration": "From sand to software, twelve layers stack on top of each other. Each one is its own industry, with its own leaders.",
       "durationSeconds": 13
+    },
+    {
+      "type": "marketShare",
+      "heading": "The Choke Points",
+      "metrics": [
+        { "label": "EUV Lithography", "leader": "ASML", "sharePercent": 100 },
+        { "label": "AI GPUs", "leader": "NVIDIA", "sharePercent": 92 },
+        { "label": "HBM Memory", "leader": "SK Hynix", "sharePercent": 53 }
+      ],
+      "narration": "Three single companies effectively control three layers. ASML, NVIDIA, and SK Hynix.",
+      "durationSeconds": 9
     },
     {
       "type": "countUpStat",
@@ -50,20 +74,26 @@
       "suffix": "M",
       "label": "Per ASML EUV machine",
       "caption": "Only one company makes them",
-      "narration": "Take layer one. ASML in the Netherlands is the only company on Earth that builds the EUV lithography machines required for advanced AI chips.",
-      "durationSeconds": 11
+      "narration": "Take ASML. Each of its EUV lithography machines costs four hundred million dollars, and there is no alternative anywhere on Earth.",
+      "durationSeconds": 10
     },
     {
-      "type": "logoGrid",
-      "heading": "The Designers",
-      "logos": ["NVIDIA", "AMD", "Google TPU", "Apple Silicon", "Amazon Trainium", "Cerebras"],
-      "narration": "And the chip designers — the brains. NVIDIA still leads, but Google, Apple, Amazon, and others are racing to build their own.",
-      "durationSeconds": 9
+      "type": "flowDiagram",
+      "heading": "The Supply Chain",
+      "steps": [
+        { "label": "ASML", "note": "EUV machines" },
+        { "label": "TSMC", "note": "fabricates chips" },
+        { "label": "NVIDIA", "note": "designs GPUs" },
+        { "label": "Hyperscalers", "note": "operate data centers" },
+        { "label": "ChatGPT", "note": "you" }
+      ],
+      "narration": "Every prompt you type rides on a supply chain that begins in the Netherlands, passes through Taiwan and Korea, and ends in your browser.",
+      "durationSeconds": 11
     },
     {
       "type": "animatedChart",
       "heading": "AI Energy Demand",
-      "unit": "TWh",
+      "unit": "TWh per year",
       "bars": [
         { "label": "2022", "value": 200 },
         { "label": "2024", "value": 460 },
@@ -71,21 +101,21 @@
         { "label": "2028", "value": 850 },
         { "label": "2030", "value": 1000 }
       ],
-      "narration": "But the real bottleneck of the next five years is not chips. It is electricity. By 2030, AI is projected to consume roughly Japan's entire annual power supply.",
-      "durationSeconds": 12
+      "narration": "And the next bottleneck is not chips. It is electricity. By the end of this decade, AI will consume roughly Japan's entire annual power supply.",
+      "durationSeconds": 11
     },
     {
       "type": "logoGrid",
       "heading": "The Frontier Labs",
       "logos": ["OpenAI", "Anthropic", "Google DeepMind", "Meta AI", "xAI", "DeepSeek"],
       "narration": "On top sits the visible part — the foundation labs you have heard of. Six contenders, one prize.",
-      "durationSeconds": 8
+      "durationSeconds": 7
     },
     {
       "type": "fact",
-      "fact": "9 out of 10 publicly traded AI infrastructure companies are headquartered in just 4 countries.",
-      "source": "Public market data, Q4 2024",
-      "narration": "Nine out of ten of these companies are headquartered in just four countries: the United States, Taiwan, Korea, and the Netherlands.",
+      "fact": "Nine out of ten publicly traded AI infrastructure companies are headquartered in just four countries.",
+      "source": "Public market analysis",
+      "narration": "Nine out of ten of these companies are headquartered in just four countries. The geography of the boom is more concentrated than the gold rush ever was.",
       "durationSeconds": 9
     },
     {
