@@ -40,9 +40,9 @@
       "type": "stackDiagram",
       "heading": "The Stack",
       "layers": [
-        { "label": "Materials", "note": "Shin-Etsu, SUMCO, Albemarle" },
+        { "label": "Materials", "note": "Shin-Etsu, SUMCO, Sumitomo Chemical" },
         { "label": "Lithography", "note": "ASML" },
-        { "label": "Foundries", "note": "TSMC, Samsung, Intel" },
+        { "label": "Foundries", "note": "TSMC, Samsung" },
         { "label": "Memory", "note": "SK Hynix, Samsung, Micron" },
         { "label": "Designers", "note": "NVIDIA, AMD, Broadcom" },
         { "label": "Networking", "note": "Arista, Cisco, Marvell" },
@@ -72,9 +72,9 @@
       "value": 400,
       "prefix": "$",
       "suffix": "M",
-      "label": "Per ASML EUV machine",
+      "label": "Per High-NA EUV machine",
       "caption": "Only one company makes them",
-      "narration": "Take ASML. Each of its EUV lithography machines costs four hundred million dollars, and there is no alternative anywhere on Earth.",
+      "narration": "Take ASML. Their newest High-NA EUV machines cost four hundred million dollars each, and there is no alternative anywhere on Earth.",
       "durationSeconds": 10
     },
     {
@@ -83,6 +83,7 @@
       "steps": [
         { "label": "ASML", "note": "EUV machines" },
         { "label": "TSMC", "note": "fabricates chips" },
+        { "label": "SK Hynix", "note": "supplies HBM" },
         { "label": "NVIDIA", "note": "designs GPUs" },
         { "label": "Hyperscalers", "note": "operate data centers" },
         { "label": "ChatGPT", "note": "you" }
@@ -92,7 +93,7 @@
     },
     {
       "type": "animatedChart",
-      "heading": "AI Energy Demand",
+      "heading": "Data Center Energy",
       "unit": "TWh per year",
       "bars": [
         { "label": "2022", "value": 200 },
@@ -101,7 +102,7 @@
         { "label": "2028", "value": 850 },
         { "label": "2030", "value": 1000 }
       ],
-      "narration": "And the next bottleneck is not chips. It is electricity. By the end of this decade, AI will consume roughly Japan's entire annual power supply.",
+      "narration": "The next bottleneck is not chips. It is electricity. AI is pushing data centers toward consuming Japan's entire annual power supply by 2030.",
       "durationSeconds": 11
     },
     {
