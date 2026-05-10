@@ -23,7 +23,8 @@
     "final": "tsx scripts/build-final.ts",
     "upload-assets": "tsx scripts/build-upload-assets.ts",
     "thumbnail": "tsx scripts/build-thumbnail.ts",
-    "shorts": "tsx scripts/build-shorts.ts"
+    "shorts": "tsx scripts/build-shorts.ts",
+    "swap-bgm": "tsx scripts/swap-bgm.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.1",
