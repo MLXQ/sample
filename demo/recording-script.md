@@ -1,83 +1,106 @@
 # Recording Script — The 12 Layers of the AI Boom
 
-**총 길이**: 99초 · **총 단어**: ~225 · **권장 페이스**: ~145 wpm (자연스러운 다큐 톤)
+**총 길이**: 118초 · **총 단어**: ~220 · **권장 페이스**: ~110 wpm (편안한 속도)
 
-## 녹음 방법
+## 녹음 방법: 씬 단위로 11번 따로 녹화
 
-1. `pilot.mp4` 를 한 화면에 켜놓고
-2. 이 마크다운을 옆 화면(또는 휴대폰)에 띄움
-3. 영상 재생 → 비주얼 변화에 맞춰 각 씬을 읽음
-4. 한 씬 끝나면 짧게 호흡 (편집 시 자르기 쉬움)
-5. 잘못 읽으면 그 씬만 다시 읽고 계속 진행 (편집에서 좋은 take 선택)
+iPhone Memoji 30초 한도 안에 모든 씬이 들어가니까, **각 씬을 별개의 .mov 로 녹화**하시면 됩니다. 한 씬 망쳐도 그 씬만 다시 찍으면 OK.
 
-각 씬 옆 시간은 비주얼이 그 씬에 머무는 구간입니다. 그 안에 다 읽으면 됩니다.
+각 씬 옆에 **녹화 시간** 표시 — 이 시간만 채우면 됩니다 (정확히 안 맞춰도 됨, 제가 sync 맞춤).
 
 ---
 
-## SCENE 1 · Title · 0.0s → 6.0s · (6.0s, 22 words)
+## SCENE 1 · Title · 10초 · (22 words, 132 wpm 편안)
 
 > The trillions of dollars flowing through artificial intelligence pass through twelve distinct layers — most of which you have never heard of.
 
-## SCENE 2 · Stat: $500B+ · 6.0s → 13.0s · (7.0s, 18 words)
+💡 *문장 중간에 "—" 있는 곳에서 살짝 호흡. "twelve distinct layers" 강조.*
+
+## SCENE 2 · $500B+ · 9초 · (18 words, 120 wpm)
 
 > Hyperscalers have already committed over five hundred billion dollars to AI infrastructure — and the build-out is only accelerating.
 
-## SCENE 3 · World Map · 13.0s → 23.0s · (10.0s, 17 words)
+💡 *"five hundred billion" 또박또박 — 큰 숫자가 임팩트.*
+
+## SCENE 3 · World Map · 11초 · (17 words, 93 wpm 매우 편안)
 
 > Almost the entire stack lives in just four countries: the United States, the Netherlands, Korea, and Taiwan.
 
-## SCENE 4 · The Stack · 23.0s → 36.0s · (13.0s, 22 words)
+💡 *4개 나라 이름은 콜론 뒤에서 한 박자 쉬고 또박또박. 지도에 핀이 하나씩 떠오름.*
+
+## SCENE 4 · The Stack · 14초 · (22 words, 94 wpm 매우 편안)
 
 > From sand to software, twelve layers stack on top of each other. Each one is its own industry, with its own leaders.
 
-> 💡 **Tip**: 13초 동안 22단어면 천천히 읽어도 됨. "From sand... to software..." 사이에 짧은 일시정지로 강조하면 좋음.
+💡 *천천히 가도 됨. "from sand... to software..." 사이에 일시정지 강조.*
 
-## SCENE 5 · Choke Points · 36.0s → 45.0s · (9.0s, 12 words)
+## SCENE 5 · Choke Points · 8초 · (12 words, 90 wpm)
 
 > Three single companies effectively control three layers. ASML, NVIDIA, and SK Hynix.
 
-> 💡 **Tip**: "ASML, NVIDIA, and SK Hynix" 세 회사 이름은 또박또박 — 각 도넛 차트가 시각적으로 등장하는 타이밍과 맞춤.
+💡 *"ASML, NVIDIA, and SK Hynix" 세 회사 이름은 또박또박 — 도넛 차트가 시각적으로 등장하는 타이밍.*
 
-## SCENE 6 · $400M ASML · 45.0s → 55.0s · (10.0s, 21 words)
+## SCENE 6 · $400M ASML · 11초 · (21 words, 115 wpm)
 
 > Take ASML. Their newest High-NA EUV machines cost four hundred million dollars each, and there is no alternative anywhere on Earth.
 
-## SCENE 7 · Supply Chain · 55.0s → 66.0s · (11.0s, 25 words)
+💡 *"four hundred million dollars" 또박또박. "no alternative anywhere on Earth" 마지막 단어 강조.*
+
+## SCENE 7 · Supply Chain · 13초 · (25 words, 115 wpm)
 
 > Every prompt you type rides on a supply chain that begins in the Netherlands, passes through Taiwan and Korea, and ends in your browser.
 
-## SCENE 8 · Energy Chart · 66.0s → 77.0s · (11.0s, 24 words)
+💡 *"Netherlands... Taiwan and Korea... your browser" 세 위치 이름에서 살짝 강세.*
+
+## SCENE 8 · Energy Chart · 13초 · (24 words, 111 wpm)
 
 > The next bottleneck is not chips. It is electricity. AI is pushing data centers toward consuming Japan's entire annual power supply by 2030.
 
-## SCENE 9 · Frontier Labs · 77.0s → 84.0s · (7.0s, 17 words)
+💡 *"is not chips. It is electricity." 두 번째 문장에서 분명한 단절 — 충격적인 사실 강조.*
+
+## SCENE 9 · Frontier Labs · 9초 · (17 words, 113 wpm)
 
 > On top sits the visible part — the foundation labs you have heard of. Six contenders, one prize.
 
-## SCENE 10 · Fact Card · 84.0s → 93.0s · (9.0s, 27 words)
+💡 *"Six contenders, one prize" 마지막 문장은 슬로건처럼 또박또박.*
 
-> Nine out of ten of these companies are headquartered in just four countries. The geography of the boom is more concentrated than the gold rush ever was.
+## SCENE 10 · Fact Card · 12초 · (22 words, 110 wpm)
 
-## SCENE 11 · Outro · 93.0s → 99.0s · (6.0s, 14 words)
+> Nine out of ten of these companies sit in just four countries. This boom is more concentrated than any gold rush in history.
+
+💡 *"Nine out of ten" 강조. "gold rush" 마지막 비유에서 살짝 천천히.*
+
+## SCENE 11 · Outro · 8초 · (14 words, 105 wpm)
 
 > Subscribe. Next episode, we go inside the Dutch monopoly that controls all of it.
 
+💡 *"Subscribe." 한 박자 강한 강세 후 일시정지. CTA 라서 명료하게.*
+
 ---
 
-## 녹음 후 보내주실 것
+## 녹음 절차 (iPhone Memoji)
 
-- **voice.mp3** (또는 wav, m4a 다 OK)
-- 한 번에 녹음한 95~100초짜리 파일 1개
+1. **iPhone Messages 앱** 열기 → 본인에게 보내는 채팅 (또는 메모 채팅)
+2. 키보드 위 "+" → **Memoji** 선택 → 본인 Memoji 클릭
+3. 빨간 ⏺️ 녹화 버튼 → 위 대본의 한 씬 읽기
+4. 정지 → 갤러리 자동 저장 또는 "내게 보내기"
+5. 다음 씬 반복 (총 11번)
+6. 11개 .mov 파일을 **scene-01.mov, scene-02.mov, ...** 순서로 채팅에 첨부
 
-저는 이걸로:
-- 음성 highpass + 컴프레서 + 노멀라이즈
-- BGM(dramatic) 자동 ducking 합성
-- YouTube 라우드니스 표준(-14 LUFS) 마스터링
-- SRT 자막 자동 생성
-- 9:16 Shorts 60초 컷 (옵션)
-- 최종 mp4 → demo 폴더 업로드
+**Tip**: 처음에는 안 익숙하니까 Scene 1 한두 번 연습 후 본녹화. 시간이 좀 길어도 (예: 10초인데 11초 걸림) 괜찮아요 — 제가 영상 timing 을 audio 에 맞춰 미세조정합니다.
 
-## 발음 가이드 (긴가민가 한 단어들)
+## 그룹 녹화 옵션 (만약 11번이 번거로우면)
+
+5 takes 로 묶어서:
+- **Take 1**: Scenes 1-3 (10+9+11=30초 — 빠듯)
+- **Take 2**: Scenes 4-5 (14+8=22초)
+- **Take 3**: Scenes 6-7 (11+13=24초)
+- **Take 4**: Scenes 8-9 (13+9=22초)
+- **Take 5**: Scenes 10-11 (12+8=20초)
+
+각 take 사이에 충분히 쉬고 (1-2초), 같은 채팅에 순서대로 첨부.
+
+## 발음 가이드
 
 | 단어 | 발음 |
 |---|---|
@@ -88,5 +111,17 @@
 | Hyperscalers | "HYPE-er-scay-lers" |
 | Anthropic | "an-THROP-ic" |
 | DeepSeek | "DEEP-seek" |
-| TWh | "tera-watt hours" 또는 "T-W-H" |
+| TWh | "tera-watt hours" |
 | High-NA | "High N-A" |
+
+## 녹음 후 보내주실 것
+
+11개 .mov 파일 (또는 5개 그룹). 각 파일 이름에 씬 번호 붙여주시면 매칭 빠릅니다.
+
+저는 받으면:
+- Memoji 영상에서 음성 추출 + 정리
+- 얼굴 부분 원형 크롭
+- pilot.mp4 좌하단(또는 본인 선호) 에 PiP 합성
+- BGM ducking + YouTube 라우드니스 마스터링
+- SRT 자막 생성
+- 최종 mp4 → demo 폴더 푸시

@@ -1,6 +1,6 @@
 {
   "title": "The 12 Layers of the AI Boom",
-  "subtitle": "Explained in 90 seconds",
+  "subtitle": "Explained in 2 minutes",
   "theme": "science",
   "scenes": [
     {
@@ -8,10 +8,10 @@
       "title": {
         "line1": "The 12 Layers",
         "line2": "of the AI Boom",
-        "eyebrow": "Explained in 90 seconds"
+        "eyebrow": "Explained in 2 minutes"
       },
       "narration": "The trillions of dollars flowing through artificial intelligence pass through twelve distinct layers — most of which you have never heard of.",
-      "durationSeconds": 6
+      "durationSeconds": 10
     },
     {
       "type": "countUpStat",
@@ -21,7 +21,7 @@
       "label": "Already committed",
       "caption": "to AI infrastructure",
       "narration": "Hyperscalers have already committed over five hundred billion dollars to AI infrastructure — and the build-out is only accelerating.",
-      "durationSeconds": 7
+      "durationSeconds": 9
     },
     {
       "type": "worldMap",
@@ -34,7 +34,7 @@
         { "country": "Taiwan", "x": 0.74, "y": 0.55, "label": "TSMC — 60% of foundry" }
       ],
       "narration": "Almost the entire stack lives in just four countries: the United States, the Netherlands, Korea, and Taiwan.",
-      "durationSeconds": 10
+      "durationSeconds": 11
     },
     {
       "type": "stackDiagram",
@@ -54,7 +54,7 @@
         { "label": "Applications", "note": "ChatGPT, Cursor, Perplexity" }
       ],
       "narration": "From sand to software, twelve layers stack on top of each other. Each one is its own industry, with its own leaders.",
-      "durationSeconds": 13
+      "durationSeconds": 14
     },
     {
       "type": "marketShare",
@@ -65,7 +65,7 @@
         { "label": "HBM Memory", "leader": "SK Hynix", "sharePercent": 53 }
       ],
       "narration": "Three single companies effectively control three layers. ASML, NVIDIA, and SK Hynix.",
-      "durationSeconds": 9
+      "durationSeconds": 8
     },
     {
       "type": "countUpStat",
@@ -75,7 +75,7 @@
       "label": "Per High-NA EUV machine",
       "caption": "Only one company makes them",
       "narration": "Take ASML. Their newest High-NA EUV machines cost four hundred million dollars each, and there is no alternative anywhere on Earth.",
-      "durationSeconds": 10
+      "durationSeconds": 11
     },
     {
       "type": "flowDiagram",
@@ -89,7 +89,7 @@
         { "label": "ChatGPT", "note": "you" }
       ],
       "narration": "Every prompt you type rides on a supply chain that begins in the Netherlands, passes through Taiwan and Korea, and ends in your browser.",
-      "durationSeconds": 11
+      "durationSeconds": 13
     },
     {
       "type": "animatedChart",
@@ -103,27 +103,27 @@
         { "label": "2030", "value": 1000 }
       ],
       "narration": "The next bottleneck is not chips. It is electricity. AI is pushing data centers toward consuming Japan's entire annual power supply by 2030.",
-      "durationSeconds": 11
+      "durationSeconds": 13
     },
     {
       "type": "logoGrid",
       "heading": "The Frontier Labs",
       "logos": ["OpenAI", "Anthropic", "Google DeepMind", "Meta AI", "xAI", "DeepSeek"],
       "narration": "On top sits the visible part — the foundation labs you have heard of. Six contenders, one prize.",
-      "durationSeconds": 7
+      "durationSeconds": 9
     },
     {
       "type": "fact",
       "fact": "Nine out of ten publicly traded AI infrastructure companies are headquartered in just four countries.",
       "source": "Public market analysis",
-      "narration": "Nine out of ten of these companies are headquartered in just four countries. The geography of the boom is more concentrated than the gold rush ever was.",
-      "durationSeconds": 9
+      "narration": "Nine out of ten of these companies sit in just four countries. This boom is more concentrated than any gold rush in history.",
+      "durationSeconds": 12
     },
     {
       "type": "outro",
       "cta": "Next: inside the Dutch monopoly.",
       "narration": "Subscribe. Next episode, we go inside the Dutch monopoly that controls all of it.",
-      "durationSeconds": 6
+      "durationSeconds": 8
     }
   ]
 }
