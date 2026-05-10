@@ -68,13 +68,70 @@ export type BrollScene = SceneBase & {
   chip?: string;
 };
 
+/**
+ * A single big number that animates up from 0 to `value` over the first
+ * ~1.5 seconds of the scene. Used for stats like "$200B", "1000 TWh".
+ */
+export type CountUpScene = SceneBase & {
+  type: "countUpStat";
+  value: number;
+  /** Optional prefix glyph (e.g. "$"). */
+  prefix?: string;
+  /** Optional suffix (e.g. "B", "%", " TWh"). */
+  suffix?: string;
+  /** Smaller line above the big number. */
+  label?: string;
+  /** Smaller italic line below the big number. */
+  caption?: string;
+};
+
+/**
+ * Vertical stack of N labeled layers, each revealing top-to-bottom.
+ * Used to visualize a value chain or hierarchy.
+ */
+export type StackLayer = { label: string; note?: string };
+export type StackScene = SceneBase & {
+  type: "stackDiagram";
+  heading: string;
+  layers: StackLayer[];
+};
+
+/**
+ * Bar chart with N bars. Bars grow from 0 to their target height,
+ * staggered by ~150ms.
+ */
+export type ChartBar = { label: string; value: number };
+export type ChartScene = SceneBase & {
+  type: "animatedChart";
+  heading: string;
+  /** Bars in order. */
+  bars: ChartBar[];
+  /** Optional unit displayed on the y-axis (e.g. "TWh"). */
+  unit?: string;
+};
+
+/**
+ * Grid of company / brand labels (no actual logo art needed). Each
+ * tile fades in with stagger.
+ */
+export type LogoGridScene = SceneBase & {
+  type: "logoGrid";
+  heading: string;
+  /** 4-9 short labels. */
+  logos: string[];
+};
+
 export type Scene =
   | TitleScene
   | NarrationScene
   | TimelineScene
   | FactScene
   | OutroScene
-  | BrollScene;
+  | BrollScene
+  | CountUpScene
+  | StackScene
+  | ChartScene
+  | LogoGridScene;
 
 export type Script = {
   title: string;

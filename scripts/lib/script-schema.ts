@@ -54,6 +54,41 @@ export const brollSceneSchema = z.object({
   chip: z.string().optional(),
 });
 
+export const countUpSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("countUpStat"),
+  value: z.number(),
+  prefix: z.string().optional(),
+  suffix: z.string().optional(),
+  label: z.string().optional(),
+  caption: z.string().optional(),
+});
+
+export const stackSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("stackDiagram"),
+  heading: z.string(),
+  layers: z
+    .array(z.object({ label: z.string(), note: z.string().optional() }))
+    .min(3)
+    .max(14),
+});
+
+export const chartSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("animatedChart"),
+  heading: z.string(),
+  bars: z.array(z.object({ label: z.string(), value: z.number() })).min(2).max(8),
+  unit: z.string().optional(),
+});
+
+export const logoGridSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("logoGrid"),
+  heading: z.string(),
+  logos: z.array(z.string().min(1)).min(2).max(9),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
   titleSceneSchema,
   narrationSceneSchema,
@@ -61,6 +96,10 @@ export const sceneSchema = z.discriminatedUnion("type", [
   factSceneSchema,
   outroSceneSchema,
   brollSceneSchema,
+  countUpSceneSchema,
+  stackSceneSchema,
+  chartSceneSchema,
+  logoGridSceneSchema,
 ]);
 
 export const generatedScriptSchema = z.object({

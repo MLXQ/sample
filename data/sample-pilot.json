@@ -1,0 +1,98 @@
+{
+  "title": "The 12 Layers of the AI Boom",
+  "subtitle": "Explained in 90 seconds",
+  "theme": "science",
+  "scenes": [
+    {
+      "type": "title",
+      "title": {
+        "line1": "The 12 Layers",
+        "line2": "of the AI Boom",
+        "eyebrow": "Explained in 90 seconds"
+      },
+      "narration": "The trillions of dollars flowing through artificial intelligence pass through twelve distinct layers — most of which you have never heard of.",
+      "durationSeconds": 7
+    },
+    {
+      "type": "countUpStat",
+      "value": 200,
+      "prefix": "$",
+      "suffix": "B",
+      "label": "Spent on AI infrastructure",
+      "caption": "in 2024 alone",
+      "narration": "Last year, the world spent over two hundred billion dollars building out the infrastructure behind AI.",
+      "durationSeconds": 7
+    },
+    {
+      "type": "stackDiagram",
+      "heading": "The Stack",
+      "layers": [
+        { "label": "Materials", "note": "silicon, rare earths" },
+        { "label": "Lithography", "note": "ASML, EUV" },
+        { "label": "Foundries", "note": "TSMC, Samsung" },
+        { "label": "Memory", "note": "SK Hynix HBM" },
+        { "label": "Designers", "note": "NVIDIA, AMD, custom silicon" },
+        { "label": "Networking", "note": "Arista, Broadcom" },
+        { "label": "Power", "note": "nuclear, gas, grid" },
+        { "label": "Cooling", "note": "Vertiv, immersion" },
+        { "label": "Real Estate", "note": "Equinix, data centers" },
+        { "label": "Cloud", "note": "AWS, Azure, GCP" },
+        { "label": "Foundation Models", "note": "OpenAI, Anthropic, Google" },
+        { "label": "Applications", "note": "ChatGPT, Cursor, Perplexity" }
+      ],
+      "narration": "From sand to software, every layer adds value. Some are open markets. Some are choke points dominated by a single company.",
+      "durationSeconds": 13
+    },
+    {
+      "type": "countUpStat",
+      "value": 400,
+      "prefix": "$",
+      "suffix": "M",
+      "label": "Per ASML EUV machine",
+      "caption": "Only one company makes them",
+      "narration": "Take layer one. ASML in the Netherlands is the only company on Earth that builds the EUV lithography machines required for advanced AI chips.",
+      "durationSeconds": 11
+    },
+    {
+      "type": "logoGrid",
+      "heading": "The Designers",
+      "logos": ["NVIDIA", "AMD", "Google TPU", "Apple Silicon", "Amazon Trainium", "Cerebras"],
+      "narration": "And the chip designers — the brains. NVIDIA still leads, but Google, Apple, Amazon, and others are racing to build their own.",
+      "durationSeconds": 9
+    },
+    {
+      "type": "animatedChart",
+      "heading": "AI Energy Demand",
+      "unit": "TWh",
+      "bars": [
+        { "label": "2022", "value": 200 },
+        { "label": "2024", "value": 460 },
+        { "label": "2026", "value": 700 },
+        { "label": "2028", "value": 850 },
+        { "label": "2030", "value": 1000 }
+      ],
+      "narration": "But the real bottleneck of the next five years is not chips. It is electricity. By 2030, AI is projected to consume roughly Japan's entire annual power supply.",
+      "durationSeconds": 12
+    },
+    {
+      "type": "logoGrid",
+      "heading": "The Frontier Labs",
+      "logos": ["OpenAI", "Anthropic", "Google DeepMind", "Meta AI", "xAI", "DeepSeek"],
+      "narration": "On top sits the visible part — the foundation labs you have heard of. Six contenders, one prize.",
+      "durationSeconds": 8
+    },
+    {
+      "type": "fact",
+      "fact": "9 out of 10 publicly traded AI infrastructure companies are headquartered in just 4 countries.",
+      "source": "Public market data, Q4 2024",
+      "narration": "Nine out of ten of these companies are headquartered in just four countries: the United States, Taiwan, Korea, and the Netherlands.",
+      "durationSeconds": 9
+    },
+    {
+      "type": "outro",
+      "cta": "Next: inside the Dutch monopoly.",
+      "narration": "Subscribe. Next episode, we go inside the Dutch monopoly that controls all of it.",
+      "durationSeconds": 6
+    }
+  ]
+}

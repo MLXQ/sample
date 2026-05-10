@@ -18,7 +18,8 @@
     "preview:final": "tsx scripts/preview-final.ts",
     "bgm": "tsx scripts/generate-bgm.ts",
     "guide": "tsx scripts/build-recording-guide.ts",
-    "mix": "tsx scripts/mix-narration.ts"
+    "mix": "tsx scripts/mix-narration.ts",
+    "pilot": "tsx scripts/build-pilot.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.1",
