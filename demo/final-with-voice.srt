@@ -1,0 +1,123 @@
+1
+00:00:00,000 --> 00:00:04,385
+The trillions of dollars flowing through artificial intelligence pass
+
+2
+00:00:04,385 --> 00:00:06,822
+through twelve distinct layers —
+
+3
+00:00:06,822 --> 00:00:10,720
+most of which you have never heard of.
+
+4
+00:00:10,720 --> 00:00:15,481
+Hyperscalers have already committed over five hundred billion dollars
+
+5
+00:00:15,481 --> 00:00:17,596
+to AI infrastructure —
+
+6
+00:00:17,596 --> 00:00:20,770
+and the build-out is only accelerating.
+
+7
+00:00:20,770 --> 00:00:27,112
+Almost the entire stack lives in just four countries:
+
+8
+00:00:27,112 --> 00:00:32,750
+the United States, the Netherlands, Korea, and Taiwan.
+
+9
+00:00:32,750 --> 00:00:40,168
+From sand to software, twelve layers stack on top of each other.
+
+10
+00:00:40,168 --> 00:00:46,350
+Each one is its own industry, with its own leaders.
+
+11
+00:00:46,350 --> 00:00:51,600
+Three single companies effectively control three layers.
+
+12
+00:00:51,600 --> 00:00:55,350
+ASML, NVIDIA, and SK Hynix.
+
+13
+00:00:55,350 --> 00:00:56,558
+Take ASML.
+
+14
+00:00:56,558 --> 00:01:01,992
+Their newest High-NA EUV machines cost four hundred million
+
+15
+00:01:01,992 --> 00:01:07,426
+dollars each, and there is no alternative anywhere on
+
+16
+00:01:07,426 --> 00:01:08,030
+Earth.
+
+17
+00:01:08,030 --> 00:01:12,260
+Every prompt you type rides on a supply chain
+
+18
+00:01:12,260 --> 00:01:16,490
+that begins in the Netherlands, passes through Taiwan and
+
+19
+00:01:16,490 --> 00:01:19,310
+Korea, and ends in your browser.
+
+20
+00:01:19,310 --> 00:01:22,941
+The next bottleneck is not chips.
+
+21
+00:01:22,941 --> 00:01:24,757
+It is electricity.
+
+22
+00:01:24,757 --> 00:01:30,204
+AI is pushing data centers toward consuming Japan's entire
+
+23
+00:01:30,204 --> 00:01:33,230
+annual power supply by 2030.
+
+24
+00:01:33,230 --> 00:01:37,422
+On top sits the visible part —
+
+25
+00:01:37,422 --> 00:01:41,614
+the foundation labs you have heard of.
+
+26
+00:01:41,614 --> 00:01:44,010
+Six contenders, one prize.
+
+27
+00:01:44,010 --> 00:01:50,767
+Nine out of ten of these companies sit in just four countries.
+
+28
+00:01:50,767 --> 00:01:56,960
+This boom is more concentrated than any gold rush in history.
+
+29
+00:01:56,960 --> 00:01:57,469
+Subscribe.
+
+30
+00:01:57,469 --> 00:02:02,053
+Next episode, we go inside the Dutch monopoly that
+
+31
+00:02:02,053 --> 00:02:04,090
+controls all of it.
