@@ -152,29 +152,29 @@ async function buildRingPng(outFile: string): Promise<void> {
 async function compositeSceneWithFace(
   silentSceneClip: string,
   memoji: string,
-  maskPng: string,
-  ringPng: string,
   outFile: string,
 ): Promise<void> {
   const pos = facePosition();
-
-  // Voice processing pipeline:
-  //   highpass 80Hz : remove low-freq rumble/AC hum
-  //   compressor   : even out dynamics
-  //   eq           : slight presence boost at 3.5kHz
-  //   loudnorm     : -16 LUFS target (well above the -14 broadcast
-  //                  default so voice sits comfortably over BGM)
+  const r = FACE_SIZE / 2 - 4; // inner-circle radius for soft edge
+  // Filter graph:
+  //   1. Crop 640x480 Memoji to 480x480 (centered).
+  //   2. Scale to FACE_SIZE x FACE_SIZE.
+  //   3. Convert to RGBA so we can write the alpha plane.
+  //   4. geq carves a circular alpha mask in-place — no separate
+  //      mask-PNG input is needed (avoids a hang we hit when
+  //      combining `-loop 1 -i mask.png` with `-shortest`).
+  //   5. Overlay the circular face onto the pilot scene.
+  // Voice chain:
+  //   highpass 80Hz  : remove low-end rumble
+  //   acompressor    : even out levels
+  //   equalizer      : +2dB presence boost around 3.5kHz
+  //   volume         : modest fixed boost
+  //   dynaudnorm     : single-pass loudness leveling (much faster
+  //                    than two-pass loudnorm which was hanging)
   const filter = [
-    // Crop the 640x480 Memoji to a 480x480 square (start at x=80 to center)
-    `[1:v]crop=480:480:80:0,scale=${FACE_SIZE}:${FACE_SIZE},setpts=PTS-STARTPTS,format=rgba[face_rgb]`,
-    // Mask is white-on-transparent; convert luma to alpha and merge
-    `[2:v]format=gray[mask_gray]`,
-    `[face_rgb][mask_gray]alphamerge[face_circ]`,
-    // Composite: pilot -> face circle -> ring
-    `[0:v][face_circ]overlay=${pos.x}:${pos.y}[step1]`,
-    `[step1][3:v]overlay=${pos.x}:${pos.y}[v]`,
-    // Voice processing
-    `[1:a]highpass=f=80,acompressor=threshold=-20dB:ratio=3:attack=5:release=200:makeup=2,equalizer=f=3500:t=h:width_type=h:width=1500:g=2,loudnorm=I=-16:TP=-1.5:LRA=9[voice]`,
+    `[1:v]crop=480:480:80:0,scale=${FACE_SIZE}:${FACE_SIZE},setpts=PTS-STARTPTS,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lt(hypot(X-${FACE_SIZE / 2},Y-${FACE_SIZE / 2}),${r}),255,0)'[face]`,
+    `[0:v][face]overlay=${pos.x}:${pos.y}[v]`,
+    `[1:a]highpass=f=80,acompressor=threshold=-20dB:ratio=3:attack=5:release=200:makeup=2,equalizer=f=3500:t=h:width_type=h:width=1500:g=2,volume=1.6,dynaudnorm=p=0.71[voice]`,
   ].join(";");
 
   await ffmpeg([
@@ -183,14 +183,6 @@ async function compositeSceneWithFace(
     silentSceneClip,
     "-i",
     memoji,
-    "-loop",
-    "1",
-    "-i",
-    maskPng,
-    "-loop",
-    "1",
-    "-i",
-    ringPng,
     "-filter_complex",
     filter,
     "-map",
@@ -317,22 +309,6 @@ async function main() {
   console.log("-> Compositing face PiP + voice per scene");
   const finalDir = path.join(OUT_DIR, "final-clips");
   await ensureDir(finalDir);
-  for (const f of [
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-    "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-  ]) {
-    try {
-      await fs.access(f);
-      GlobalFonts.registerFromPath(f, "Inter");
-      break;
-    } catch {
-      // try next
-    }
-  }
-  const maskPng = path.join(finalDir, "face-mask.png");
-  const ringPng = path.join(finalDir, "face-ring.png");
-  await buildCircularMaskPng(maskPng);
-  await buildRingPng(ringPng);
 
   const finalClips: string[] = [];
   for (let i = 0; i < 11; i++) {
@@ -344,7 +320,7 @@ async function main() {
     const memoji = memojiFiles[i];
     const out = path.join(finalDir, `${String(i).padStart(2, "0")}.mp4`);
     const start = Date.now();
-    await compositeSceneWithFace(silentClip, memoji, maskPng, ringPng, out);
+    await compositeSceneWithFace(silentClip, memoji, out);
     console.log(
       `   [${i + 1}/11] ${path.basename(out)}  (${Date.now() - start}ms)`,
     );
