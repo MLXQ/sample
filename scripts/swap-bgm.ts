@@ -74,9 +74,12 @@ async function remixWithBgm(
     bgm,
     "-filter_complex",
     [
+      // Upmix the (mono) voice to stereo so the (stereo) BGM doesn't get
+      // downmixed to mono by amix's channel-layout-follows-first rule.
+      `[0:a]aformat=channel_layouts=stereo,asplit=2[voice_main][voice_sc]`,
       `[1:a]aloop=loop=-1:size=2e9,atrim=duration=${duration.toFixed(2)},volume=${bgmVolume},afade=t=in:st=0:d=1.5,afade=t=out:st=${(duration - 2).toFixed(2)}:d=2[bgm_pre]`,
-      `[bgm_pre][0:a]sidechaincompress=threshold=-30dB:ratio=8:attack=10:release=300[bgm_ducked]`,
-      `[0:a][bgm_ducked]amix=inputs=2:duration=longest:dropout_transition=2:normalize=0[master]`,
+      `[bgm_pre][voice_sc]sidechaincompress=threshold=-30dB:ratio=8:attack=10:release=300[bgm_ducked]`,
+      `[voice_main][bgm_ducked]amix=inputs=2:duration=longest:dropout_transition=2:normalize=0[master]`,
     ].join(";"),
     "-map",
     "0:v",
@@ -126,9 +129,10 @@ async function buildShortsWithBgm(bgm: string, bgmVolume: number, outFile: strin
     "-filter_complex",
     [
       `[0:v]scale=${BAND_W}:${BAND_H},pad=${TARGET_W}:${TARGET_H}:0:${(TARGET_H - BAND_H) / 2}:black[v]`,
+      `[0:a]aformat=channel_layouts=stereo,asplit=2[voice_main][voice_sc]`,
       `[1:a]aloop=loop=-1:size=2e9,atrim=duration=${dur.toFixed(2)},volume=${bgmVolume},afade=t=in:st=0:d=1.0,afade=t=out:st=${(dur - 1.5).toFixed(2)}:d=1.5[bgm_pre]`,
-      `[bgm_pre][0:a]sidechaincompress=threshold=-30dB:ratio=8:attack=10:release=300[bgm_ducked]`,
-      `[0:a][bgm_ducked]amix=inputs=2:duration=longest:dropout_transition=2:normalize=0[master]`,
+      `[bgm_pre][voice_sc]sidechaincompress=threshold=-30dB:ratio=8:attack=10:release=300[bgm_ducked]`,
+      `[voice_main][bgm_ducked]amix=inputs=2:duration=longest:dropout_transition=2:normalize=0[master]`,
     ].join(";"),
     "-map",
     "[v]",

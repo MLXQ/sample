@@ -183,7 +183,7 @@ async function main() {
     `- Hyperscaler capex commitments: company earnings calls 2024-2025`,
     ``,
     `🎙 Recorded in iPhone Messages with Memoji. No AI voice — that's me.`,
-    `🎵 Background music: original composition, MIDI rendered via FluidR3_GM soundfont.`,
+    `🎵 Background music: "Future Bass" by BombinSound (via Pixabay, Pixabay Content License).`,
     `🎨 Motion graphics: custom Remotion + ffmpeg pipeline.`,
     ``,
     `🔔 Subscribe — next episode goes inside the Dutch monopoly that controls them all.`,
