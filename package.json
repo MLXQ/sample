@@ -26,6 +26,10 @@
     "shorts": "tsx scripts/build-shorts.ts",
     "swap-bgm": "tsx scripts/swap-bgm.ts",
     "scout-arxiv": "tsx scripts/scout-arxiv.ts",
+    "scout-cspan": "tsx scripts/scout-cspan.ts",
+    "transcribe": "tsx scripts/transcribe.ts",
+    "find-moments": "tsx scripts/find-moments.ts",
+    "draft-cspan-episode": "tsx scripts/draft-cspan-episode.ts",
     "episode": "tsx scripts/build-episode.ts"
   },
   "dependencies": {
