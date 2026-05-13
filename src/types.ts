@@ -179,6 +179,33 @@ export type FlowDiagramScene = SceneBase & {
   steps: FlowStep[];
 };
 
+/**
+ * Plays an external video clip (e.g. a C-SPAN hearing, White House
+ * speech, NASA fab footage) as the scene's base visual. Optional
+ * caption + source-label overlay sits on top so viewers know what
+ * they're watching. Audio: by default uses the source clip's own
+ * audio (the speaker). If a Memoji clip is also provided for this
+ * scene, the speaker's audio is replaced with the user's commentary.
+ */
+export type SourceClipScene = SceneBase & {
+  type: "sourceClip";
+  /** Path to mp4 in public/videos/source/ or absolute path. */
+  file: string;
+  /** Trim window in seconds. Default: from 0 to end of clip. */
+  trimStart?: number;
+  trimEnd?: number;
+  /** Caption shown lower-left (e.g. "Senator Hawley grills Sam Altman"). */
+  caption?: string;
+  /** Source label upper-left chip (e.g. "C-SPAN  ·  May 16, 2023"). */
+  source?: string;
+  /**
+   * When true, replace the source's audio with the user's Memoji
+   * narration (default: false — use source audio so we hear the
+   * actual speaker).
+   */
+  muteSourceAudio?: boolean;
+};
+
 export type Scene =
   | TitleScene
   | NarrationScene
@@ -192,7 +219,8 @@ export type Scene =
   | LogoGridScene
   | WorldMapScene
   | MarketShareScene
-  | FlowDiagramScene;
+  | FlowDiagramScene
+  | SourceClipScene;
 
 export type Script = {
   title: string;

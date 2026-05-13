@@ -134,6 +134,17 @@ export const flowDiagramSceneSchema = z.object({
     .max(7),
 });
 
+export const sourceClipSceneSchema = z.object({
+  ...baseFields,
+  type: z.literal("sourceClip"),
+  file: z.string().min(1),
+  trimStart: z.number().min(0).optional(),
+  trimEnd: z.number().min(0).optional(),
+  caption: z.string().optional(),
+  source: z.string().optional(),
+  muteSourceAudio: z.boolean().optional(),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
   titleSceneSchema,
   narrationSceneSchema,
@@ -148,6 +159,7 @@ export const sceneSchema = z.discriminatedUnion("type", [
   worldMapSceneSchema,
   marketShareSceneSchema,
   flowDiagramSceneSchema,
+  sourceClipSceneSchema,
 ]);
 
 export const generatedScriptSchema = z.object({

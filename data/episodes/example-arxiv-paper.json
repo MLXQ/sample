@@ -1,0 +1,74 @@
+{
+  "id": "example-arxiv-paper",
+  "title": "Decoding Today's Biggest AI Paper",
+  "subtitle": "Explained in 2 minutes",
+  "theme": "science",
+  "memojiDir": "uploads/example-arxiv-paper",
+  "bgm": "tech",
+  "facePosition": "bottom-left",
+  "source": {
+    "kind": "arxiv",
+    "refId": "PAPER_ID_HERE",
+    "url": "https://arxiv.org/abs/PAPER_ID_HERE"
+  },
+  "scenes": [
+    {
+      "type": "title",
+      "title": {
+        "line1": "PAPER_TITLE_LINE_1",
+        "line2": "PAPER_TITLE_LINE_2",
+        "eyebrow": "Today's AI paper"
+      },
+      "narration": "A new paper out of LAB_NAME claims to have solved THE_PROBLEM. Here's what they actually did, and whether it matters.",
+      "durationSeconds": 10
+    },
+    {
+      "type": "countUpStat",
+      "value": 70,
+      "suffix": "B",
+      "label": "Parameters",
+      "caption": "in the new open-weights model",
+      "narration": "The model is seventy billion parameters — about the size of LLaMA 2. But here's the twist.",
+      "durationSeconds": 9
+    },
+    {
+      "type": "stackDiagram",
+      "heading": "Their Approach",
+      "layers": [
+        { "label": "1. Pre-train", "note": "10T tokens, 90 days, 8K H100s" },
+        { "label": "2. Instruction-tune", "note": "synthetic data only" },
+        { "label": "3. Self-rewarding RL", "note": "no human feedback" },
+        { "label": "4. Distillation", "note": "to 7B for inference" }
+      ],
+      "narration": "The pipeline is four stages: pre-training, instruction-tuning, self-rewarding reinforcement learning, and finally distillation to a smaller model.",
+      "durationSeconds": 13
+    },
+    {
+      "type": "animatedChart",
+      "heading": "MMLU Score (out of 100)",
+      "unit": "score",
+      "bars": [
+        { "label": "GPT-3.5", "value": 70 },
+        { "label": "LLaMA-2 70B", "value": 69 },
+        { "label": "Claude 3 Sonnet", "value": 79 },
+        { "label": "Mistral Large", "value": 81 },
+        { "label": "This paper", "value": 86 }
+      ],
+      "narration": "On standard benchmarks they hit eighty-six on MMLU. That beats every open model and gets close to GPT-4.",
+      "durationSeconds": 12
+    },
+    {
+      "type": "fact",
+      "fact": "Training cost: $4.6 million in compute alone, before any salaries.",
+      "source": "Authors' compute estimate",
+      "narration": "Training cost was four point six million dollars in compute alone. That's still nothing compared to OpenAI or Anthropic, but enough to lock out most researchers.",
+      "durationSeconds": 12
+    },
+    {
+      "type": "outro",
+      "cta": "Subscribe for the daily AI paper recap.",
+      "narration": "Subscribe — I cover one paper every day, in two minutes.",
+      "durationSeconds": 7
+    }
+  ]
+}
