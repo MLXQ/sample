@@ -168,26 +168,66 @@ async function compositeWithFace(
 
   if (!memojiClip) {
     // No face — just trim base clip to duration and apply consistent
-    // encoding so concat can copy without re-encoding.
-    await ffmpeg([
-      "-y",
-      "-i",
-      baseClip,
-      "-t",
-      String(duration),
-      "-c:v",
-      "libx264",
-      "-crf",
-      "18",
-      "-preset",
-      "veryfast",
-      "-pix_fmt",
-      "yuv420p",
-      ...(useSourceAudio
-        ? ["-c:a", "aac", "-b:a", "192k"]
-        : ["-an"]),
-      outFile,
-    ]);
+    // encoding so concat can copy without re-encoding. If we're not
+    // using the source's audio (e.g. canvas-rendered card scene with
+    // no Memoji), inject a silent stereo AAC track so every clip in
+    // the concat list has the same stream layout.
+    if (useSourceAudio) {
+      await ffmpeg([
+        "-y",
+        "-i",
+        baseClip,
+        "-t",
+        String(duration),
+        "-c:v",
+        "libx264",
+        "-crf",
+        "18",
+        "-preset",
+        "veryfast",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        outFile,
+      ]);
+    } else {
+      // Silent: synthesize a stereo silence track to match every other
+      // scene's audio layout. Lets us hard-cut concat with -c copy.
+      await ffmpeg([
+        "-y",
+        "-i",
+        baseClip,
+        "-f",
+        "lavfi",
+        "-t",
+        String(duration),
+        "-i",
+        "anullsrc=channel_layout=stereo:sample_rate=44100",
+        "-map",
+        "0:v",
+        "-map",
+        "1:a",
+        "-t",
+        String(duration),
+        "-c:v",
+        "libx264",
+        "-crf",
+        "18",
+        "-preset",
+        "veryfast",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-shortest",
+        outFile,
+      ]);
+    }
     return;
   }
 
@@ -228,7 +268,15 @@ async function compositeWithFace(
 }
 
 async function renderSourceClip(
-  scene: { file: string; trimStart?: number; trimEnd?: number; caption?: string; source?: string },
+  scene: {
+    file: string;
+    trimStart?: number;
+    trimEnd?: number;
+    caption?: string;
+    source?: string;
+    /** Optional path to ASS subtitle file to burn in. */
+    subs?: string;
+  },
   outFile: string,
   durationSeconds: number,
 ): Promise<void> {
@@ -238,12 +286,20 @@ async function renderSourceClip(
   const ss = scene.trimStart ?? 0;
   // Build caption overlay PNG if needed
   const overlay = await buildSourceClipOverlay(scene);
+
+  // Inputs: video, optional overlay PNG
   const args: string[] = ["-y", "-ss", String(ss), "-i", src];
   if (overlay) args.push("-loop", "1", "-i", overlay);
 
+  // Filter chain — start with scale+crop+trim, optionally chain
+  // subtitle burn-in (must come BEFORE overlay so subs sit beneath
+  // the caption/source-chip overlay), then overlay.
+  const subFilter = scene.subs
+    ? `,subtitles='${scene.subs.replace(/'/g, "\\'")}'`
+    : "";
   const filter = overlay
-    ? `[0:v]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},trim=duration=${durationSeconds.toFixed(2)},setpts=PTS-STARTPTS[base];[base][1:v]overlay=0:0[v]`
-    : `[0:v]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},trim=duration=${durationSeconds.toFixed(2)},setpts=PTS-STARTPTS[v]`;
+    ? `[0:v]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},trim=duration=${durationSeconds.toFixed(2)},setpts=PTS-STARTPTS${subFilter}[base];[base][1:v]overlay=0:0[v]`
+    : `[0:v]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},trim=duration=${durationSeconds.toFixed(2)},setpts=PTS-STARTPTS${subFilter}[v]`;
 
   args.push(
     "-filter_complex",

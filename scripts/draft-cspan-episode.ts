@@ -134,9 +134,22 @@ async function writeCommentary(
 
 async function main() {
   const argv = process.argv.slice(2);
-  const dir = argv[0];
+  const positional: string[] = [];
+  const flags = { silent: false, bilingual: false };
+  for (const a of argv) {
+    if (a === "--silent") flags.silent = true;
+    else if (a === "--bilingual") flags.bilingual = true;
+    else positional.push(a);
+  }
+  const dir = positional[0];
   if (!dir) {
-    console.error("Usage: npm run draft-cspan-episode -- <analysis-dir>");
+    console.error(
+      "Usage: npm run draft-cspan-episode -- <analysis-dir> [--silent] [--bilingual]",
+    );
+    console.error("");
+    console.error("  --silent       skip Memoji narration; reaction scenes are silent text cards");
+    console.error("  --bilingual    burn EN+KO subtitles into source-clip scenes");
+    console.error("                 (requires bilingual-transcript.json in <analysis-dir>)");
     process.exit(1);
   }
   const absDir = path.isAbsolute(dir) ? dir : path.resolve(ROOT, dir);
@@ -148,6 +161,20 @@ async function main() {
       await fs.readFile(path.join(absDir, "moments.json"), "utf-8"),
     ) as { moments: Moment[] }
   ).moments.sort((a, b) => a.startSeconds - b.startSeconds);
+
+  // Validate bilingual mode prereqs
+  const bilingualPath = path.join(absDir, "bilingual-transcript.json");
+  if (flags.bilingual) {
+    try {
+      await fs.access(bilingualPath);
+    } catch {
+      console.error(
+        `--bilingual requires bilingual-transcript.json in ${dir}. Run:`,
+      );
+      console.error(`  npm run translate-transcript -- ${dir}/transcript.json`);
+      process.exit(1);
+    }
+  }
 
   const sourceFile = await (async () => {
     try {
@@ -182,9 +209,26 @@ async function main() {
     durationSeconds: 10,
   });
 
-  // Alternating sourceClip + narration reaction
+  // Alternating sourceClip + narration reaction.
+  // For bilingual mode we pre-generate one ASS subtitle file per clip
+  // (subtitles filter needs a file path on disk).
+  const subsDir = path.join(absDir, "subs");
+  if (flags.bilingual) await fs.mkdir(subsDir, { recursive: true });
+
   for (const m of moments) {
     const dur = +(m.endSeconds - m.startSeconds).toFixed(2);
+
+    let subsPath: string | undefined;
+    if (flags.bilingual) {
+      // Generate the ASS file for this clip's time window
+      subsPath = path.join(subsDir, `clip-${String(m.rank).padStart(2, "0")}.ass`);
+      const { execSync } = await import("node:child_process");
+      execSync(
+        `npx tsx scripts/build-subtitles.ts "${bilingualPath}" --start ${m.startSeconds} --end ${m.endSeconds} --offset ${m.startSeconds} --out "${subsPath}"`,
+        { stdio: "inherit", cwd: ROOT },
+      );
+    }
+
     scenes.push({
       type: "sourceClip",
       file: sourceFile,
@@ -192,6 +236,7 @@ async function main() {
       trimEnd: +m.endSeconds.toFixed(2),
       caption: m.speaker ? `${m.speaker}` : undefined,
       source: "C-SPAN",
+      subs: subsPath ? path.relative(ROOT, subsPath) : undefined,
       narration: m.quote, // for SRT only; audio comes from source clip
       durationSeconds: dur,
     });
@@ -201,6 +246,8 @@ async function main() {
         type: "fact",
         fact: m.whyItMatters,
         source: m.speaker,
+        // In silent mode, narration text still drives SRT generation
+        // but no Memoji clip is expected for this scene at build time.
         narration: reaction.narration,
         durationSeconds: 10,
       });
