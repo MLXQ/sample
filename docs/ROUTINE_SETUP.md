@@ -26,12 +26,15 @@ You are running the daily video pipeline for our cinematic AI/tech YouTube chann
 
 ## Step 1: Scout for content
 
-Run all three scouts in parallel:
+Run all five scouts in parallel:
 
 ```
 npm run scout-arxiv -- --category cs.AI --days 1 --top 10
 npm run scout-cspan -- --query "artificial intelligence" --top 10
 npm run scout-cspan -- --query "semiconductor" --top 10
+npm run scout-edgar -- --days 3 --types 10-Q,8-K
+npm run scout-whitehouse -- --days 3
+npm run scout-voa -- --days 3
 ```
 
 ## Step 2: Pick today's topic
